@@ -15,9 +15,8 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       :counter="8"
-                      :rules="cinRules"
                       density="compact"
-                      label="CIN*"
+                      label="CIN"
                       hint="EE82XXXX"
                       required
                       v-model="patient.cin"
@@ -136,7 +135,7 @@
           </td>
           <td>
             <v-chip color="darkPrimary" prepend-icon="mdi-account-details">{{
-              patient.cin
+              patient.cin == "" ? "aucun" : patient.cin
             }}</v-chip>
           </td>
           <td>
@@ -619,6 +618,7 @@ export default {
       insurance: "",
     });
     const insurances = ref([
+      'Aucune',
       "CNSS",
       "CNOPS",
       "OCP",

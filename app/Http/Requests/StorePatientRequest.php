@@ -26,10 +26,10 @@ class StorePatientRequest extends FormRequest
     {
         return [
             "full_name" => 'required|max:70|regex:/^[\pL\s]+$/u',
-            "cin" => 'required|unique:patients,cin|alpha_num|size:8',
+            // "cin" => 'required|unique:patients,cin|alpha_num|size:8',
             'phone' => 'required|unique:patients,phone|numeric|max_digits:10',
             'birth_date' => 'required|date',
-            'insurance' => 'string|max:5',
+            'insurance' => 'string|max:10',
             'gender' => 'required|string',
         ];
     }

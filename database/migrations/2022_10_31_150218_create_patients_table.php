@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('full_name');
             $table->string('phone')->unique();
             $table->date('birth_date');
-            $table->longText('cin');
+            $table->longText('cin')->nullable();
             $table->enum('gender', ['m', 'f']);
             $table->string('insurance')->nullable();
 
