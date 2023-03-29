@@ -18,18 +18,12 @@ class HomeController extends Controller
         $patientsAddedLastMonth = Patient::StartOfMonth()->count();
 
         $appointments = Appointment::StartOfMonth()->count();
-        $consultations = Appointment::where('type', 'consultation')->StartOfMonth()->count();
+        $consultations = Appointment::StartOfMonth()->count();
     
         $sessions = Appointment::StartOfMonth()->count();
         $paid = Appointment::all();
 
-        // $grouped = $paid->mapWithKeys(function ($item, $key) {
-        //     return [$item['rate'] => $item['created_at']->format('Y-m-d')];
-        // });
-        // $paid = Appointment::Paid('paid')->whereBetween(
-        //     'created_at',
-        //     [Carbon::now()->subYear(), Carbon::now()]
-        // )->get();
+
 
         $paid = Appointment::selectRaw('(SUM(rate)) as total, (Count(*)) as apps, MONTHNAME(created_at) as month_name')
         ->whereBetween(

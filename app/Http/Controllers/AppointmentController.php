@@ -69,7 +69,7 @@ class AppointmentController extends Controller
             'medical_treatment' => $request->medical_treatment,
             'rate' => $request->rate,
             'type' => "session",
-            'next_examination_date' => $request->next_examination_date ? \DateTime::createFromFormat('D M d Y H:i:s e+', $request->next_examination_date)->format('Y-m-d') : null,
+            'next_examination_date' => $request->next_examination_date == "null" ? null : \DateTime::createFromFormat('D M d Y H:i:s e+', $request->next_examination_date)->format('Y-m-d'),
             'note' => $request->note,
             'act' => $condition->name,
             'total_amount' => $request->total_amount == null ? $app->total_amount : $request->total_amount,

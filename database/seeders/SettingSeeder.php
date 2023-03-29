@@ -26,11 +26,11 @@ class SettingSeeder extends Seeder
 
         Setting::create([
             'key' => "name",
-            'value' => 'Yasmina Ksikes',
+            'value' => 'Dr. Bou-Souab Mouna',
         ]);
         Setting::create([
             'key' => "speciality",
-            'value' => 'Spécialiste en Orthopédie Dento-Faciale et Orthodentie',
+            'value' => 'Implantologie-Orthodontie-Blanchiment-Soin-Chirurgie-Radiographie',
         ]);
         Setting::create([
             'key' => 'address',
@@ -39,11 +39,11 @@ class SettingSeeder extends Seeder
         ]);
         Setting::create([
             'key' => 'diplome',
-            'value' => 'Diplomée de la faculté de paris',
+            'value' => "Diplomée de l'université hassan II de Médecine Dentaire casablanca",
         ]);
         Setting::create([
             'key' => 'inp',
-            'value' => '0741711919',
+            'value' => '074177478',
         ]);
         Setting::create([
             'key' => 'patente',
@@ -51,7 +51,7 @@ class SettingSeeder extends Seeder
         ]);
         Setting::create([
             'key' => 'if',
-            'value' => '40104704',
+            'value' => '40441548',
         ]);
         Setting::create([
             'key' => 'cnss',
@@ -59,7 +59,15 @@ class SettingSeeder extends Seeder
         ]);
         Setting::create([
             'key' => 'ice',
-            'value' => '001634865000047',
+            'value' => '001714889000074',
+        ]);
+        Setting::create([
+            'key' => 'email',
+            'value' => 'monabous@hotmail.com',
+        ]);
+        Setting::create([
+            'key' => 'phone',
+            'value' => '0611345339',
         ]);
         Setting::create([
             'key' => 'waiting',

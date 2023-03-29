@@ -52,14 +52,7 @@
                         </v-chip>
                         <br />
                 
-                        <v-chip
-                            prepend-icon="mdi-calendar"
-                            size="small"
-                            class="mt-2 font-weight-medium"
-                            color="darkPrimary"
-                        >
-                            {{ generalData.sessions }} {{$t('message.sessions')}}
-                        </v-chip>
+            
                     </v-sheet>
                 </v-col>
                 <v-col cols="12" md="4">
