@@ -31,8 +31,9 @@
                       :rules="phoneRules" v-model="patient.phone" required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <Datepicker density="compact" v-model="patient.birth_date" teleport-center :enableTimePicker="false"
-                      :max-date="new Date()" auto-apply :placeholder="$t('message.selectBirthDate')"></Datepicker>
+                    <Datepicker density="compact" v-model="patient.birth_date" text-input inline-with-input :enableTimePicker="false"
+                      :max-date="new Date()" auto-apply 
+                      :placeholder="$t('message.selectBirthDate')"></Datepicker>
 
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
@@ -453,14 +454,15 @@ export default {
       last_page,
     } = usePatients();
 
-    const exportToPDF = (name, id, settings, apps) => {
+     const exportToPDF = (name, id, settings, apps) => {
       let data = [];
       let rows = [["Examen", "Montant", "Date"]];
       let prices = [];
       let total = 0;
       const current = new Date();
-      const currentDate = `${current.getDate()}/${current.getMonth() + 1
-        }/${current.getFullYear()}`;
+      const currentDate = `${current.getDate()}/${
+        current.getMonth() + 1
+      }/${current.getFullYear()}`;
 
       apps.forEach(function (value, key) {
         data.push({
@@ -480,7 +482,7 @@ export default {
 
       const documentDefinition = {
         content: [
-
+       
           {
             alignment: "right",
             text: "Le: " + currentDate,
@@ -530,7 +532,7 @@ export default {
             fontSize: 12,
             margin: [0, 4],
           },
-
+         
           {
             alignment: "left",
             text: "ICE: " + settings.ice,
