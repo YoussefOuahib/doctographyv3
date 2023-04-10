@@ -146,9 +146,9 @@
                               density="compact"></v-select>
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
-                            <Datepicker density="compact" v-model="myPatient.birth_date" :enableTimePicker="false"
-                              :flow="flow" :placeholder="$t('message.selectBirthDate')">
-                            </Datepicker>
+                            <Datepicker density="compact" v-model="myPatient.birth_date" text-input inline-with-input :enableTimePicker="false"
+                      :max-date="new Date()" auto-apply 
+                      :placeholder="$t('message.selectBirthDate')"></Datepicker>
                           </v-col>
                         </v-row>
                       </v-container>

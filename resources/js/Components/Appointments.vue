@@ -25,39 +25,37 @@
 
                                     <v-autocomplete density="compact" hide-no-data persistent-hint label="Patient"
                                         v-model="appointment.patient_id" name="patient_id" :items="patients.data"
-                                        item-title="full_name" item-value="id"
-                                        >
+                                        item-title="full_name" item-value="id">
                                     </v-autocomplete>
                                 </v-col>
-                               
+
                                 <v-divider></v-divider>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-select
-                                        :label="$t('message.act')"
-                                         clearable item-value="id" item-title="name" single-line chips
-                                        v-model="appointment.act"
+                                    <v-select :label="$t('message.act')" clearable item-value="id" item-title="name"
+                                        single-line chips v-model="appointment.act"
                                         @update:modelValue="checkIfExists(appointment.patient_id, appointment.act)"
                                         density="compact" :items="conditions.data">
                                     </v-select>
-                                    </v-col>
+                                </v-col>
 
-                              
+
                                 <v-col cols="12" sm="6" md="6">
                                     <v-text-field v-model="appointment.medical_treatment"
                                         :label="$t('message.medicalTreatment')" placeholder="Aspirin, ..." required
                                         density="compact"></v-text-field>
                                 </v-col>
 
-                           
+
                                 <v-col cols="12" v-if="checked == false" sm="6" md="6">
                                     <v-text-field density="compact" :label="$t('message.totalAmountTreatment')"
                                         v-model="appointment.total_amount"></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <datepicker :enableTimePicker="false" :highlightWeekDays="[0, 6]" :minDate="new Date()"
-                                        no-today :placeholder="$t('message.selectNextExaminationDate')"
-                                        v-model="appointment.next_examination_date">
-                                    </datepicker>
+
+                                    <Datepicker density="compact" v-model="appointment.next_examination_date" 
+                                    text-input inline-with-input :enableTimePicker="false" auto-apply no-today
+                                        :highlightWeekDays="[0, 6]" :placeholder="$t('message.nextExaminationDate')">
+                                    </Datepicker>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
                                     <v-file-input :label="$t('message.uploadImage')" v-model="appointment.gallery" multiple
@@ -174,13 +172,14 @@
                                                                         density="compact"></v-text-field>
                                                                 </v-col>
                                                                 <v-col cols="12" sm="6" md="6">
-                                                                    <datepicker :enableTimePicker="
-                                                                        false
-                                                                    " :highlightWeekDays="[0, 6,]"
-                                                                        :minDate="new Date()" no-today
-                                                                        placeholder="Select next examination date"
-                                                                        v-model="myAppointment.next_examination_date">
-                                                                    </datepicker>
+                                                                
+                                                                    <Datepicker density="compact"
+                                                                        v-model="myAppointment.next_examination_date"
+                                                                        text-input inline-with-input
+                                                                        :enableTimePicker="false" no-today auto-apply
+                                                                        :highlightWeekDays="[0, 6]"
+                                                                        :placeholder="$t('message.nextExaminationDate')">
+                                                                    </Datepicker>
                                                                 </v-col>
 
                                                                 <v-col v-if="
@@ -264,7 +263,7 @@
                                     size="x-small" color="purple" icon="mdi-image-multiple"></v-btn>
 
                                 <br />
-                            
+
                             </div>
                             <v-dialog v-model="dialogImage[app.id]">
                                 <v-card>
@@ -304,7 +303,7 @@
                                             upcomingAppointment.date
                                         "></datepicker>
                                 </v-col>
-                          
+
 
 
 
@@ -385,7 +384,7 @@ export default {
 
         const { getPatients, patients, myPatient, getPatient } = usePatients();
         const { getSettings, settings, fixedRate } = useSettings();
-        const { getConditions, conditions} = useConditions();
+        const { getConditions, conditions } = useConditions();
         const { storeUpcomingAppointment, deleteUpcomingAppointment } = useUpcoming();
 
 
@@ -403,7 +402,7 @@ export default {
             medical_treatment: "",
             act: "",
             note: "",
-            next_examination_date: "",
+            next_examination_date: new Date(),
             total_amount: "",
             gallery: [],
             rate: fixedRate,
@@ -416,7 +415,7 @@ export default {
 
 
 
-      
+
 
         const calendarOptions = reactive({
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -452,7 +451,7 @@ export default {
 
                     dialogP.value = true;
                 } else {
-                    
+
                     deleteUpcomingAppointment(info.event.id, calendar.value);
                 }
             },
@@ -513,5 +512,4 @@ export default {
 
 .swal2-container {
     z-index: 10000;
-}
-</style>
+}</style>
