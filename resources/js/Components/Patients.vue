@@ -454,7 +454,7 @@ export default {
       last_page,
     } = usePatients();
 
-     const exportToPDF = (name, id, settings, apps) => {
+    const exportToPDF = (name, id, settings, apps) => {
       let data = [];
       let rows = [["Examen", "Montant", "Date"]];
       let prices = [];
@@ -593,6 +593,7 @@ export default {
       };
       pdfMake.createPdf(documentDefinition).open();
     };
+
     const exportPrescription = (prescription, settings) => {
       let data = [];
       let rows = [["Examen", "Montant", "Date"]];
