@@ -70,6 +70,15 @@ const messages = {
         searchByName: "Search by name",
         validationError: "Validation Error",
         passwordMatchError: "Password Doesn't match",
+        addPayment: "Add payment",
+        deletePatientSnack: "Delete Patient and all his appointments",
+        editPatientSnack: "Edit Patient's informations",
+        showAppointmentsSnack: "Show history of patient's appointments",
+        editAppointmentSnack: "Edit Appointment",
+        deleteAppointmentSnack: "Delete Appointment",
+        deleteNextAppointmentSnack: "Delete Upcoming Appointment",
+        waitingRoom: "Patients in waiting room"
+        
 
   
       }
@@ -142,7 +151,16 @@ const messages = {
         search: 'Rechercher par nom ou CIN',
         searchByName : 'Rechercher par nom',
         validationError: 'Erreur de validation',
-        passwordMatchError: "le mot de passe ne correspond pas"
+        passwordMatchError: "le mot de passe ne correspond pas",
+        addPayment: "Ajouter un paiement",
+        deletePatientSnack: "Supprimer le patient et toutes ses informations",
+        editPatientSnack: "Modifier les informations du patient",
+        showAppointmentsSnack: "Afficher l'historique des rendez-vous du patient",
+        editAppointmentSnack: "Modifier le rendez-vous",
+        deleteAppointmentSnack: "Supprimer ce rendez-vous",
+        deleteNextAppointmentSnack: "Supprimer le rendez-vous à venir",
+        waitingRoom: "Patients en salle d'attente"
+
   
       }
     }

@@ -31,8 +31,8 @@
                       :rules="phoneRules" v-model="patient.phone" required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <Datepicker density="compact" v-model="patient.birth_date" text-input inline-with-input :enableTimePicker="false"
-                      :max-date="new Date()" auto-apply 
+                    <Datepicker density="compact" v-model="patient.birth_date" text-input inline-with-input
+                      :enableTimePicker="false" :max-date="new Date()" auto-apply
                       :placeholder="$t('message.selectBirthDate')"></Datepicker>
 
                   </v-col>
@@ -76,9 +76,8 @@
       <tbody>
         <tr v-for="patient in patients.data" :key="patient.id">
           <td>
-            <v-chip :color="patient.gender == 'm' ? 'secondary-darken-1' : 'pink'" text-color="white" :prepend-icon="
-              patient.gender == 'm' ? 'mdi-gender-male' : 'mdi-gender-female'
-            " class="font-weight-medium">
+            <v-chip :color="patient.gender == 'm' ? 'secondary-darken-1' : 'pink'" text-color="white" :prepend-icon="patient.gender == 'm' ? 'mdi-gender-male' : 'mdi-gender-female'
+              " class="font-weight-medium">
               {{ patient.full_name }}
             </v-chip>
           </td>
@@ -100,7 +99,7 @@
           </td>
 
           <td>
-            <v-chip color="darkPrimary" prepend-icon="mdi-calendar-range" class="font-weight-medium">
+            <v-chip color="darkPrimary"  prepend-icon="mdi-calendar-range" class="font-weight-medium">
               {{ patient.first_app }}
             </v-chip>
           </td>
@@ -111,10 +110,10 @@
           </td>
 
           <td>
-            <v-btn @click.stop="dialogApp[patient.id] = true" color="warning" class="ml-2" icon="mdi-calendar-range"
+            <v-btn @click.stop="dialogApp[patient.id] = true" @mouseover="showAppointmentsSnack = true" @mouseleave="showAppointmentsSnack = false" color="warning" class="ml-2" icon="mdi-calendar-range"
               size="x-small">
             </v-btn>
-            <v-btn color="secondary" icon="mdi-calendar-edit" size="x-small" class="ml-2"
+            <v-btn color="secondary" @mouseover="editPatientSnack = true" @mouseleave="editPatientSnack = false" icon="mdi-calendar-edit" size="x-small" class="ml-2"
               @click.prevent="getPatient(patient.id)" rounded>
               <v-icon> </v-icon>
               <v-dialog v-model="dialogPatient" activator="parent">
@@ -146,9 +145,9 @@
                               density="compact"></v-select>
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
-                            <Datepicker density="compact" v-model="myPatient.birth_date" text-input inline-with-input :enableTimePicker="false"
-                      :max-date="new Date()" auto-apply 
-                      :placeholder="$t('message.selectBirthDate')"></Datepicker>
+                            <Datepicker density="compact" v-model="myPatient.birth_date" text-input inline-with-input
+                              :enableTimePicker="false" :max-date="new Date()" auto-apply
+                              :placeholder="$t('message.selectBirthDate')"></Datepicker>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -164,7 +163,7 @@
                 </v-form>
               </v-dialog>
             </v-btn>
-            <v-btn color="danger" class="ml-2" icon="mdi-account-minus" size="x-small" v-if="can('patients.delete')"
+            <v-btn color="danger" @mouseover="deletePatientSnack = true" @mouseleave="deletePatientSnack = false" class="ml-2" icon="mdi-account-minus" size="x-small" v-if="can('patients.delete')"
               @click.prevent="deletePatient(patient.id)">
             </v-btn>
           </td>
@@ -274,7 +273,7 @@
               settings,
               selectedAppointments
             )
-          " color="darkPrimary">
+            " color="darkPrimary">
             Print
           </v-btn>
           <v-btn color="blue-darken-1" variant="text" @click="dialogInvoice = false">
@@ -313,6 +312,25 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Start of snackbars -->
+    <v-snackbar v-model="deletePatientSnack" multi-line>
+      {{ $t("message.deletePatientSnack") }}
+
+
+    </v-snackbar>
+    <v-snackbar v-model="editPatientSnack" multi-line>
+      {{ $t("message.editPatientSnack") }}
+
+
+    </v-snackbar>
+    <v-snackbar v-model="showAppointmentsSnack" multi-line>
+      {{ $t("message.showAppointmentsSnack") }}
+
+
+    </v-snackbar>
+
+    <!-- End of Snackbars-->
   </div>
 </template>
 
@@ -334,6 +352,10 @@ export default {
     dialogPatient: false,
     dialogInvoice: false,
     dialogPrescription: false,
+    //snackbars
+    deletePatientSnack: false,
+    editPatientSnack: false,
+    showAppointmentsSnack: false,
     dialogApp: {},
     dialogImage: {},
     nameRules: [
@@ -440,6 +462,7 @@ export default {
     const flow = ref(["year", "month", "calendar"]);
     const { conditions, getConditions } = useConditions();
 
+
     const {
       allPatients,
       patients,
@@ -453,7 +476,6 @@ export default {
       current_page,
       last_page,
     } = usePatients();
-
     const exportToPDF = (name, id, settings, apps) => {
       let data = [];
       let rows = [["Examen", "Montant", "Date"]];

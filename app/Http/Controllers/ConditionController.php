@@ -18,7 +18,7 @@ class ConditionController extends Controller
     public function index()
     {
         $this->authorize('conditions.manage');
-        $conditions = Condition::paginate(10);
+        $conditions = Condition::get();
 
 
         return new ConditionCollection($conditions);

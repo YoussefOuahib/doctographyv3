@@ -52,9 +52,10 @@
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
 
-                                    <Datepicker density="compact" v-model="appointment.next_examination_date" 
-                                    text-input inline-with-input :enableTimePicker="false" auto-apply no-today
-                                        :highlightWeekDays="[0, 6]" :placeholder="$t('message.nextExaminationDate')">
+                                    <Datepicker density="compact" v-model="appointment.next_examination_date" text-input
+                                        inline-with-input :enableTimePicker="false" auto-apply no-today
+                                        :highlightWeekDays="[0, 6]" :minDate="new Date()"
+                                        :placeholder="$t('message.nextExaminationDate')">
                                     </Datepicker>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
@@ -147,57 +148,46 @@
                                 </td>
                                 <td>
                                 <td>
-                                    <v-btn class="ml-2" color="secondary" icon="mdi-calendar-edit" size="x-small" rounded>
+                                    <v-btn class="ml-2" @mouseover="editAppointmentSnack = true"
+                                        @mouseleave="editAppointmentSnack = false" color="secondary"
+                                        icon="mdi-calendar-edit" size="x-small" rounded>
                                         <v-icon> </v-icon>
                                         <v-dialog v-model="dialogAppointment" activator="parent">
-                                            <v-form @submit.prevent="
-                                                updateAppointment(
-                                                    myAppointment,
-                                                    calendar
-                                                )
-                                            " enctype="multipart/form-data">
+                                            <v-form @submit.prevent="updateAppointment(myAppointment, calendar)"
+                                                enctype="multipart/form-data">
                                                 <v-card>
                                                     <v-card-text>
                                                         <v-container>
                                                             <v-row>
-                                                                <v-col v-if="
-                                                                    can(
-                                                                        'appointments.update'
-                                                                    )
-                                                                " cols="12" sm="6" md="6">
-                                                                    <v-text-field v-model="
-                                                                        myAppointment.medical_treatment
-                                                                    " :label="$t('message.medicalTreatment')"
+                                                                <v-col v-if="can('appointments.update')" cols="12" sm="6"
+                                                                    md="6">
+                                                                    <v-text-field v-model="myAppointment.medical_treatment"
+                                                                        :label="$t('message.medicalTreatment')"
                                                                         placeholder="Aspirin, ..." required
                                                                         density="compact"></v-text-field>
                                                                 </v-col>
                                                                 <v-col cols="12" sm="6" md="6">
-                                                                
+
                                                                     <Datepicker density="compact"
                                                                         v-model="myAppointment.next_examination_date"
                                                                         text-input inline-with-input
-                                                                        :enableTimePicker="false" no-today auto-apply
-                                                                        :highlightWeekDays="[0, 6]"
+                                                                        :enableTimePicker="false" auto-apply
+                                                                        :highlightWeekDays="[0, 6]" :minDate="new Date()"
                                                                         :placeholder="$t('message.nextExaminationDate')">
                                                                     </Datepicker>
                                                                 </v-col>
 
-                                                                <v-col v-if="
-                                                                    can(
-                                                                        'appointments.update'
-                                                                    )
-                                                                " cols="12" sm="12" md="12">
-                                                                    <v-text-field clearable v-model="
-                                                                        myAppointment.note
-                                                                    " :label="$t('message.additionalNote')"
+                                                                <v-col v-if="can('appointments.update')" cols="12" sm="12"
+                                                                    md="12">
+                                                                    <v-text-field clearable v-model="myAppointment.note
+                                                                        " :label="$t('message.additionalNote')"
                                                                         density="compact"></v-text-field>
                                                                 </v-col>
 
                                                                 <v-col cols="12" sm="6" md="6">
                                                                     <v-text-field :label="$t('message.rate')"
-                                                                        density="compact" type="numeric" v-model="
-                                                                            myAppointment.rate
-                                                                        ">
+                                                                        density="compact" type="numeric"
+                                                                        v-model="myAppointment.rate">
                                                                     </v-text-field>
                                                                 </v-col>
                                                             </v-row>
@@ -205,33 +195,27 @@
                                                     </v-card-text>
                                                     <v-card-actions>
                                                         <v-btn type="submit" color="darkPrimary">
-                                                            {{
-                                                                $t(
-                                                                    "message.save"
-                                                                )
-                                                            }}
+                                                            {{ $t("message.save") }}
                                                         </v-btn>
-                                                        <v-btn color="danger" @click="
-                                                            dialogAppointment = false
-                                                        ">
-                                                            {{
-                                                                $t(
-                                                                    "message.close"
-                                                                )
-                                                            }}</v-btn>
+                                                        <v-btn color="danger" @click="dialogAppointment = false">
+                                                            {{ $t("message.close") }}
+                                                        </v-btn>
                                                     </v-card-actions>
                                                 </v-card>
                                             </v-form>
                                         </v-dialog>
                                     </v-btn>
-                                    <v-btn v-if="myAppointment.next_examination_date" class="ml-2" color="error"
+                                    <v-btn @mouseover="deleteNextAppointmentSnack = true"
+                                        @mouseleave="deleteNextAppointmentSnack = false"
+                                        v-if="myAppointment.next_examination_date" class="ml-2" color="error"
                                         icon="mdi-calendar-remove" size="x-small"
                                         @click="deleteNextDate(myAppointment.id, calendar)">
                                     </v-btn>
 
-                                    <v-btn @click.prevent="
-                                        deleteAppointment(myAppointment.id, calendar)" color="danger" class="ml-2"
-                                        icon="mdi-delete" size="x-small">
+                                    <v-btn @mouseover="deleteAppointmentSnack = true"
+                                        @mouseleave="deleteAppointmentSnack = false"
+                                        @click.prevent="deleteAppointment(myAppointment.id, calendar)" color="danger"
+                                        class="ml-2" icon="mdi-delete" size="x-small">
                                     </v-btn>
                                 </td>
                                 </td>
@@ -299,9 +283,8 @@
 
                                 <v-col cols="12" sm="6" md="6">
                                     <datepicker :enableTimePicker="false" :highlightWeekDays="[0, 6]" :minDate="new Date()"
-                                        no-today placeholder="Date" v-model="
-                                            upcomingAppointment.date
-                                        "></datepicker>
+                                        no-today placeholder="Date" v-model="upcomingAppointment.date
+                                            "></datepicker>
                                 </v-col>
 
 
@@ -333,6 +316,25 @@
                 {{ $t("message.upcomingAppointments") }}</v-chip>
         </div>
 
+
+        <!-- Start of snackbars -->
+        <v-snackbar v-model="deleteAppointmentSnack" multi-line>
+            {{ $t("message.deleteAppointmentSnack") }}
+
+
+        </v-snackbar>
+        <v-snackbar v-model="deleteNextAppointmentSnack" multi-line>
+            {{ $t("message.deleteNextAppointmentSnack") }}
+
+
+        </v-snackbar>
+        <v-snackbar v-model="editAppointmentSnack" multi-line>
+            {{ $t("message.editAppointmentSnack") }}
+
+
+        </v-snackbar>
+
+        <!-- End of Snackbars-->
         <v-container>
             <full-calendar ref="calendar" :options="calendarOptions" />
         </v-container>
@@ -364,6 +366,11 @@ export default {
         dialogAppointment: false,
         dialogInvoice: false,
         dialogImage: {},
+
+        //snackbars
+        editAppointmentSnack: false,
+        deleteAppointmentSnack: false,
+        deleteNextAppointmentSnack: false,
     }),
     setup() {
         const dialogP = ref(false);
@@ -420,6 +427,8 @@ export default {
         const calendarOptions = reactive({
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
             initialView: "dayGridMonth",
+            locale: localStorage.getItem("userLanguage"),
+
             headerToolbar: {
                 prev: "chevron-left",
                 next: "chevron-right",
@@ -512,4 +521,5 @@ export default {
 
 .swal2-container {
     z-index: 10000;
-}</style>
+}
+</style>

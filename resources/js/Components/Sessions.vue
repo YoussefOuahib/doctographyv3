@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-autocomplete return-object :counter="25" clearable append-inner-icon="mdi-magnify"
-      :label="$t('message.searchByName')" :items="patients.data"
-      item-title="full_name" item-value="id" v-model="searching" @update:modelValue="searchSessions"></v-autocomplete>
+      :label="$t('message.searchByName')" :items="patients.data" item-title="full_name" item-value="id"
+      v-model="searching" @update:modelValue="searchSessions"></v-autocomplete>
 
     <v-btn color="warning" @click="dialogPayment = true" class="ml-2 mt-4 mr-auto" prepend-icon="mdi-calendar-plus">
-      Ajouter un paiement
+      {{ $t("message.addPayment") }}
     </v-btn>
 
     <v-dialog v-model="dialogPayment">
@@ -64,9 +64,8 @@
         <tr v-for="session in sessions.data" :key="session.id">
           <td>
             <v-chip :color="session.patient_gender == 'm' ? 'secondary-darken-1' : 'pink'" text-color="white"
-              :prepend-icon="
-                session.patient_gender == 'm' ? 'mdi-gender-male' : 'mdi-gender-female'
-              " class="font-weight-medium">
+              :prepend-icon="session.patient_gender == 'm' ? 'mdi-gender-male' : 'mdi-gender-female'
+                " class="font-weight-medium">
               {{ session.patient_name }}
             </v-chip>
           </td>
@@ -75,25 +74,7 @@
               {{ session.act }}
             </v-chip>
           </td>
-          <!-- <td>
-            <v-chip
-              color="darkPrimary"
-              text-color="white"
-              prepend-icon="mdi-timer-sand-full"
-              class="font-weight-medium"
-            >
-              {{ session.total_sessions }}
-            </v-chip>
-            <v-chip
-              color="danger"
-              text-color="white"
-              prepend-icon="mdi-timer-sand"
-              class="font-weight-medium"
-              size="x-small"
-            >
-              -{{ session.remaining_sessions }}
-            </v-chip>
-          </td> -->
+
           <td>
             <v-chip color="darkPrimary" text-color="white" prepend-icon="mdi-account-cash" class="font-weight-medium">
               {{ session.rate }} MAD
@@ -117,13 +98,15 @@
           </td>
 
           <td>
-            <v-btn @click.prevent="getInfo(session.id, session.patient_id)" color="warning" class="ml-2"
+            <v-btn @mouseover="showAppointmentsSnack = true" @mouseleave="showAppointmentsSnack = false"
+              @click.prevent="getInfo(session.id, session.patient_id)" color="warning" class="ml-2"
               icon="mdi-calendar-range" size="x-small">
             </v-btn>
-            <v-btn color="secondary" icon="mdi-calendar-edit" size="x-small" class="ml-2"
-              @click.prevent="editSession(session)" rounded>
+            <v-btn color="secondary" @mouseover="editAppointmentSnack = true" @mouseleave="editAppointmentSnack = false"
+              icon="mdi-calendar-edit" size="x-small" class="ml-2" @click.prevent="editSession(session)" rounded>
             </v-btn>
-            <v-btn color="danger" class="ml-2" icon="mdi-delete" size="x-small" @click="deleteSession(session.id)">
+            <v-btn color="danger" @mouseover="deleteAppointmentSnack = true" @mouseleave="deleteAppointmentSnack = false"
+              class="ml-2" icon="mdi-delete" size="x-small" @click="deleteSession(session.id)">
             </v-btn>
           </td>
         </tr>
@@ -207,6 +190,24 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- Start of snackbars -->
+    <v-snackbar v-model="deleteAppointmentSnack" multi-line>
+            {{ $t("message.deleteAppointmentSnack") }}
+
+
+        </v-snackbar>
+        <v-snackbar v-model="showAppointmentsSnack" multi-line>
+            {{ $t("message.showAppointmentsSnack") }}
+
+
+        </v-snackbar>
+        <v-snackbar v-model="editAppointmentSnack" multi-line>
+            {{ $t("message.editAppointmentSnack") }}
+
+
+        </v-snackbar>
+
+        <!-- End of Snackbars-->
   </div>
 </template>
 <script>
@@ -224,6 +225,14 @@ export default {
   data: () => ({
     dialogImage: {},
     dialogPayment: false,
+
+    //start of snackbars //
+    showAppointmentsSnack: false,
+    editAppointmentSnack: false,
+    deleteAppointmentSnack: false,
+
+    // end of snackbars //
+    
   }),
   setup() {
     const searching = ref("");

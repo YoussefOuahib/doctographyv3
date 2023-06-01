@@ -4,16 +4,11 @@
       <v-sheet class="pa-2 text-center">
         <v-img class="mx-auto mb-4 mt-4" max-width="228" src="/images/logo.png"></v-img>
         <div>Hi, {{ user.name }}</div>
-        <v-progress-circular
-          class="mt-4"
-          :size="50"
-          :width="5"
-          indeterminate
-          size="small"
-          color="darkPrimary"
-        >
-          {{ waiting }}
-        </v-progress-circular>
+        <v-spacer></v-spacer>
+        <br />
+        
+          {{ waiting }} {{ $t("message.waitingRoom") }}
+
 
         <br />
         <v-btn
